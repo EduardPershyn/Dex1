@@ -5,6 +5,8 @@ import "../../contracts/Dex1.sol";
 
 contract SetupContract is Dex {
 
+    event Debug(uint256 b1, uint256 b2, uint256 b3, uint256 b4);
+
     address player;
     SwappableToken swapToken1;
     SwappableToken swapToken2;
@@ -22,16 +24,23 @@ contract SetupContract is Dex {
     }
 
     function swap1(uint amount) public {
-        super.swap(address(swapToken1), address(swapToken2), amount);
-
-        assert(balanceOf(address(swapToken1), address(this)) > 10);
-        assert(balanceOf(address(swapToken2), address(this)) > 10);
+        super.swap(token1, token2, amount);
+        check();
     }
 
     function swap2(uint amount) public {
-        super.swap(address(swapToken2), address(swapToken1), amount);
+        super.swap(token2, token1, amount);
+        check();
+    }
 
-        assert(balanceOf(address(swapToken1), address(this)) > 10);
-        assert(balanceOf(address(swapToken2), address(this)) > 10);
+    function check() internal {
+        uint b1 = balanceOf(token1, address(this));
+        uint b2 = balanceOf(token2, address(this));
+        uint b3 = balanceOf(token1, address(player));
+        uint b4 = balanceOf(token2, address(player));
+        emit Debug(b1, b2, b3, b4);
+
+        assert(balanceOf(token1, address(this)) >= 85);
+        assert(balanceOf(token2, address(this)) >= 85);
     }
 }

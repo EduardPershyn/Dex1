@@ -1,5 +1,6 @@
 testMode: assertion
 corpusDir: corpus
 testLimit: 1000000
+sender: ["0x30000"]
 filterBlacklist: true
 filterFunctions: ["Dex.swap(address,address,uint256)"]
